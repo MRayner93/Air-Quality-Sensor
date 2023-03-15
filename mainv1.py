@@ -100,9 +100,9 @@ display.text("WLAN...", 0, 15)
 display.show()
 
 # WLAN-Name
-WIFI_SSID = "BZTG-IoT"
+WIFI_SSID = "Kuckucksweg 2,4GHz"
 # WLAN-Passwort
-WIFI_PASSWORD = "WerderBremen24"
+WIFI_PASSWORD = "meranna2019"
 # WLAN-Client erzeugen
 wlan = network.WLAN(network.STA_IF)
 # WLAN ausschalten
@@ -137,7 +137,7 @@ display.text("MQTT...", 0, 15)
 display.show()
 
 # MQTT Broker
-MQTT_SERVER = "192.168.1.133"
+MQTT_SERVER = "192.168.178.37"
 # MQTT Client ID
 CLIENT_ID = "MQTT_MR"
 # MQTT Parameter

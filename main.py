@@ -28,10 +28,15 @@ Bibliotheken:
 - network (integriert in Micropython)
 - MQTTClient (integriert in Micropython)
 """
-from funktionen import ppm_json
-from funktionen import luft_gut
-from funktionen import luft_mittel
-from funktionen import luft_schlecht
+from funktionen import funktionen
+
+    # JSON-Funktion
+def ppm_json():
+    # Sensordaten in Strings umwandeln und die Werte in einen Dump schreiben
+    analogwert = {"Analogwert" : str(ppm)}
+    ausgabe = json.dumps(analogwert)
+    # Werte zum Broker schicken - (TOPIC, PAYLOAD)
+    mqttClient.publish("MQ135_Analogwert", ausgabe)
 
 #---------------------------- Programm --------------------------------
 while True:
@@ -42,13 +47,13 @@ while True:
     
     # Wenn der PPM-Wert unter 1000 liegt, die gute Luftqualität Funktion verwenden
     if ppm <= 1000:
-        luft_gut()
+        funktionen.luft_gut()
     # Wenn der PPM-Wert zwischen 1000 und 1599 liegt, die mittlere Luftqualität Funktion verwenden
     if ppm >= 1000 and ppm <=1599:
-        luft_mittel()
+        funktionen.luft_mittel()
     # Wenn der PPM-Wert unter 1000 liegt, die schlechte Luftqualität Funktion verwenden
     if ppm >= 1600:
-        luft_schlecht()
+        funktionen.luft_schlecht()
     
     # Jede Sekunde den Wert aktualisieren
     time.sleep(1)
