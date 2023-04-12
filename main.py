@@ -1,11 +1,11 @@
 """
 Merlin Rayner, ETS22, 22.11.2022
 
-Version 1.5a, 12.04.2023
+Version 1.5b, 12.04.2023
 Neue Versionen und weitere Informationen gibt es hier: https://github.com/MRayner93/air_quality
 
-Dieses Programm ist für einen Sensor der die Luftqualität messen kann. Auf dem OLED Display und über das Node-Red
-Dashboard wird der aktuelle Wert in PPM (Parts per Million) angezeigt. Der Sensor muss, um optimal zu funktionieren,
+Dieses Programm ist für einen Sensor, der die Luftqualität messen kann. Auf dem OLED Display und über das Node-Red
+Dashboard wird der aktuelle Wert in ppm (Parts per Million) angezeigt. Der Sensor muss, um optimal zu funktionieren,
 für mehrere Stunden aufgeheizt werden. Außerdem kann ein Ampelsystem und ein Buzzer über den Microcontroller
 angesteuert werden. Bei guter Luftqualität leuchtet die grüne LED, bei mittlerer nur die gelbe LED und bei schlechter
 Luftqualität leuchtet die rote LED und der Buzzer schlägt Alarm.
@@ -216,7 +216,7 @@ def ppmJSON():
 while True:
     # Den Analogwert vom Sensor lesen
     ppm = analogWert.read()
-    # Analogwert wird zu Testzwecken durch 2 geteilt
+    # Analogwert wird zu Testzwecken durch 2 geteilt, da der Sensor meherere Stunden aufgeheizt werden muss
     ppm = ppm / 2
     # Der Analogwert wird für Node-Red und das Display auf eine ganze Zahl gerundet
     ppmAnzeige = round(ppm)
