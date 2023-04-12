@@ -1,8 +1,8 @@
 """
 Merlin Rayner, ETS22, 22.11.2022
 
-Version 1.5, 12.04.2023
-Neue Versionen und weitere Informationen gibt es hier:
+Version 1.5a, 12.04.2023
+Neue Versionen und weitere Informationen gibt es hier: https://github.com/MRayner93/air_quality
 
 Dieses Programm ist für einen Sensor der die Luftqualität messen kann. Auf dem OLED Display und über das Node-Red
 Dashboard wird der aktuelle Wert in PPM (Parts per Million) angezeigt. Der Sensor muss, um optimal zu funktionieren,
