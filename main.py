@@ -107,9 +107,9 @@ display.text("WLAN...", 0, 15)
 display.show()
 
 # WLAN-Name
-WIFI_SSID = "Kuckucksnest 2,4GHz"
+WIFI_SSID = "XXX"
 # WLAN-Passwort
-WIFI_PASSWORD = "meranna2019"
+WIFI_PASSWORD = "XXX"
 # WLAN-Client erzeugen
 wlan = network.WLAN(network.STA_IF)
 # WLAN ausschalten
@@ -144,7 +144,7 @@ display.text("MQTT...", 0, 15)
 display.show()
 
 # MQTT Broker
-MQTT_SERVER = "192.168.178.37"
+MQTT_SERVER = "XXX"
 # MQTT Client ID
 CLIENT_ID = "MQTT_MR"
 # MQTT Parameter
