@@ -1,0 +1,10 @@
+var Warnung = msg.payload.Analogwert;
+
+// Prüfen, ob Analogwert größer als 1600 ist
+if (Warnung > 1600) {
+    msg.topic = "INSERT INTO Analogwerte (Analogwert) VALUES ('" + Warnung + "')";
+    return msg;
+} else {
+    // Analogwert ist nicht größer als 1600, daher wird die Nachricht verworfen
+    return null;
+}

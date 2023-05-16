@@ -68,7 +68,7 @@ displayReset = Pin(16,Pin.OUT)
 analogWert = ADC(Pin(36))
 
 #------------------------ Analog Pin Verstärkung -----------------------
-# Analog Digital Converter Verstärkung um 11 dB
+# Analog Digital Converter Verstärkung (Attenuation) um 11 dB
 analogWert.atten(ADC.ATTN_11DB)
 
 #------------------------ Display initialisierung ----------------------
@@ -107,9 +107,9 @@ display.text("WLAN...", 0, 15)
 display.show()
 
 # WLAN-Name
-WIFI_SSID = "XXX"
+WIFI_SSID = "BZTG-IoT"
 # WLAN-Passwort
-WIFI_PASSWORD = "XXX"
+WIFI_PASSWORD = "WerderBremen24"
 # WLAN-Client erzeugen
 wlan = network.WLAN(network.STA_IF)
 # WLAN ausschalten
@@ -144,7 +144,7 @@ display.text("MQTT...", 0, 15)
 display.show()
 
 # MQTT Broker
-MQTT_SERVER = "XXX"
+MQTT_SERVER = "192.168.1.151"
 # MQTT Client ID
 CLIENT_ID = "MQTT_MR"
 # MQTT Parameter
@@ -171,7 +171,7 @@ def luftGut():
     display.fill(0)
     display.text("-Luftqualitaet-", 7, 0)
     display.text("Gut", 43, 15)
-    display.text(f"PPM: {ppmAnzeige}", 0, 55)
+    display.text(f"PPM: {ppm}", 0, 55)
     display.show()
 
 # Mittlere Luftqualität-Funktion
@@ -186,7 +186,7 @@ def luftMittel():
     display.text("-Luftqualitaet-", 2, 0)
     display.text("Mittel", 43, 15)
     display.text("!Bitte Lueften!", 5, 35)
-    display.text(f"PPM: {ppmAnzeige}", 0, 55)
+    display.text(f"PPM: {ppm}", 0, 55)
     display.show()
 
 # Schlechte Luftqualität-Funktion
@@ -201,13 +201,13 @@ def luftSchlecht():
     display.text("-Luftqualitaet-", 0, 0)
     display.text("Schlecht", 36, 15)
     display.text("!Sofort Lueften!", 0, 35)
-    display.text(f"PPM: {ppmAnzeige}", 0, 55)
+    display.text(f"PPM: {ppm}", 0, 55)
     display.show()
    
 # JSON-Funktion
 def ppmJSON():
     # Sensordaten in Strings umwandeln und die Werte in einen Dump schreiben
-    sensorWert = {"Analogwert" : str(ppmAnzeige)}
+    sensorWert = {"Analogwert" : str(ppm)}
     ausgabe = json.dumps(sensorWert)
     # Werte zum Broker schicken - (TOPIC, PAYLOAD)
     mqttClient.publish("MQ135_Analogwert", ausgabe)
@@ -216,10 +216,8 @@ def ppmJSON():
 while True:
     # Den Analogwert vom Sensor lesen
     ppm = analogWert.read()
-    # Analogwert wird zu Testzwecken durch 2 geteilt, da der Sensor meherere Stunden aufgeheizt werden muss
-    ppm = ppm / 2
-    # Der Analogwert wird für Node-Red und das Display auf eine ganze Zahl gerundet
-    ppmAnzeige = round(ppm)
+    # Analogwert wird zu Testzwecken durch 2 geteilt, da der Sensor mehrere Stunden aufgeheizt werden muss
+    #ppm = ppm // 2
     # JSON-Funktion ausführen
     ppmJSON()
     # Wenn der PPM-Wert unter 1000 liegt, die gute Luftqualität Funktion verwenden
