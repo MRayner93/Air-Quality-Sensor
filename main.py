@@ -1,112 +1,110 @@
 """
 Author: Merlin Rayner
-Version: 1.5b
+Version: 1.6
 """
-#-------------------------- Bibliotheken ------------------------------
-# PINs, SoftI2C und analoge PINs
+#-------------------------- Libraries ------------------------------
+# Pins, SoftI2C, and analog pins
 from machine import Pin, ADC, SoftI2C
-# Zeitfunktionen
+# Time functions
 import time
-# JSON Datenformat
+# JSON data format
 import json
-# MQTT-Client
+# MQTT client
 from umqtt.simple import MQTTClient
-# Netzwerkfunktion
+# Network functions
 import network
-# OLED-Screen
+# OLED screen
 import ssd1306
 
-#------------------------ Pin initialisierung --------------------------
-# grüne LED auf Pin 22
-ledGruen = Pin (22, Pin.OUT)
-# gelbe LED auf Pin 23
-ledGelb = Pin (23, Pin.OUT)
-# rote LED auf Pin 17
-ledRot = Pin (17, Pin.OUT)
-# Buzzer auf Pin 12
-buzzer = Pin (12, Pin.OUT)
-# I2C-Takt auf Pin 15 - OLED
+#------------------------ Pin Initialization --------------------------
+# Green LED on Pin 22
+ledGreen = Pin(22, Pin.OUT)
+# Yellow LED on Pin 23
+ledYellow = Pin(23, Pin.OUT)
+# Red LED on Pin 17
+ledRed = Pin(17, Pin.OUT)
+# Buzzer on Pin 12
+buzzer = Pin(12, Pin.OUT)
+# I2C clock on Pin 15 - OLED
 softi2c_scl = Pin(15, Pin.OUT, Pin.PULL_UP)
-# I2C-Daten auf Pin 4 - OLED
+# I2C data on Pin 4 - OLED
 softi2c_sda = Pin(4, Pin.OUT, Pin.PULL_UP)
-# Display Reset auf Pin 16 - OLED
-displayReset = Pin(16,Pin.OUT)
-# Analogwert vom Sensor auf Pin 36
-analogWert = ADC(Pin(36))
+# Display Reset on Pin 16 - OLED
+displayReset = Pin(16, Pin.OUT)
+# Sensor analog value on Pin 36
+analogValue = ADC(Pin(36))
 
-#------------------------ Analog Pin Verstärkung -----------------------
-# Analog Digital Converter Verstärkung (Attenuation) um 11 dB
-analogWert.atten(ADC.ATTN_11DB)
+#------------------------ Analog Pin Attenuation -----------------------
+# Analog Digital Converter attenuation by 11 dB
+analogValue.atten(ADC.ATTN_11DB)
 
-#------------------------ Display initialisierung ----------------------
-# I2C-Objekt wird erstellt
+#------------------------ Display Initialization ----------------------
+# Create I2C object
 softi2c = SoftI2C(scl=softi2c_scl, sda=softi2c_sda)
-# OLED-Display Reset-Pin wird auf 0 gesetzt
+# Set OLED Display Reset pin to 0
 displayReset.value(0)
-# Es wird 0.2 Sekunden gewartet
+# Wait for 0.2 seconds
 time.sleep(0.2)
-# OLED-Display Reset-Pin wird auf 1 gesetzt
+# Set OLED Display Reset pin to 1
 displayReset.value(1)
-# Display-Objekt wird erstellt und die Größe des Displays wird festgelegt
+# Create display object and set display size
 display = ssd1306.SSD1306_I2C(128, 64, softi2c)
 
-#----------------------- LED und Buzzer Testen -------------------------
-# Buzzer und alle LEDs gehen an
+#----------------------- LED and Buzzer Test -------------------------
+# Buzzer and all LEDs turn on
 buzzer.on()
-ledGruen.on()
-ledGelb.on()
-ledRot.on()
-
-# Es wird 0.2 Sekunden gewartet
+ledGreen.on()
+ledYellow.on()
+ledRed.on()
+# Wait for 0.2 seconds
 time.sleep(0.2)
-
-# Buzzer und alle LEDs gehen aus
-ledGruen.off()
-ledGelb.off()
-ledRot.off()
+# Buzzer and all LEDs turn off
+ledGreen.off()
+ledYellow.off()
+ledRed.off()
 buzzer.off()
 
-#-------------------------- WLAN Verbindung ---------------------------
-# Auf dem Display wird die Initialisierung für das WLAN angezeigt
+#-------------------------- Wi-Fi Connection ---------------------------
+# Display Wi-Fi initialization on the OLED
 display.fill(0)
-display.text("Initialisiere", 0, 0)
-display.text("WLAN...", 0, 15)
+display.text("Initializing", 0, 0)
+display.text("Wi-Fi...", 0, 15)
 display.show()
 
-# WLAN-Name
+# Wi-Fi Name
 WIFI_SSID = "BZTG-IoT"
-# WLAN-Passwort
+# Wi-Fi Password
 WIFI_PASSWORD = "WerderBremen24"
-# WLAN-Client erzeugen
+# Create Wi-Fi client
 wlan = network.WLAN(network.STA_IF)
-# WLAN ausschalten
+# Turn off Wi-Fi
 wlan.active(False)
-# WLAN einschalten
+# Turn on Wi-Fi
 wlan.active(True)
-# Warten, damit WLAN eingeschaltet ist
+# Wait for Wi-Fi to be enabled
 time.sleep(0.5)
-# Verbindung zum WLAN herstellen
-wlan.connect(WIFI_SSID,WIFI_PASSWORD)
-# Solange warten, bis Verbindung hergestellt
+# Connect to Wi-Fi
+wlan.connect(WIFI_SSID, WIFI_PASSWORD)
+# Wait for connection to be established
 while not wlan.isconnected():
     pass
 
-# Auf dem Display wird der Erfolg der Verbindung angezeigt
+# Display connection success on the OLED
 display.fill(0)
-display.text("Erfolgreich!", 0, 0)
+display.text("Successful!", 0, 0)
 display.show()
 time.sleep(2)
 
-# In der Konsole werden SSID, IP und die Subnetzmaske angezeigt
+# Print SSID, IP, and Subnet mask in the console
 networkList = wlan.ifconfig()
 print("SSID:", wlan.config("essid"))
 print("IP:", networkList[0])
 print("SUBNET:", networkList[1])
 
 #------------------------------ MQTT ----------------------------------
-# Auf dem Display wird die Initialisierung für MQTT angezeigt
+# Display MQTT initialization on the OLED
 display.fill(0)
-display.text("Initialisiere", 0, 0)
+display.text("Initializing", 0, 0)
 display.text("MQTT...", 0, 15)
 display.show()
 
@@ -114,87 +112,88 @@ display.show()
 MQTT_SERVER = "192.168.1.151"
 # MQTT Client ID
 CLIENT_ID = "MQTT_MR"
-# MQTT Parameter
+# MQTT Parameters
 mqttClient = MQTTClient(CLIENT_ID, MQTT_SERVER, port=1883, user=None, password=None, keepalive=3600, ssl=False, ssl_params={})
-# 0.5 Sekunde warten
+# Wait for 0.5 seconds
 time.sleep(0.5)
-# Verbinden mit MQTT
+# Connect to MQTT
 mqttClient.connect()
 
-# Auf dem Display wird der Erfolg der Verbindung angezeigt
+# Display connection success on the OLED
 display.fill(0)
-display.text("Erfolgreich!", 0, 0)
+display.text("Successful!", 0, 0)
 display.show()
 time.sleep(2)
-#----------------------------- Funktionen ------------------------------
-# Gute Luftqualität-Funktion
-def luftGut():
-# Die grüne LED ist an, alle anderen aus und der Buzzer macht kein Geräusch
-    ledGruen.on()
-    ledGelb.off()
-    ledRot.off()
+
+#----------------------------- Functions ------------------------------
+# Good Air Quality Function
+def airGood():
+    # Green LED is on, all others off, and buzzer is silent
+    ledGreen.on()
+    ledYellow.off()
+    ledRed.off()
     buzzer.off()
-# Auf dem Display wird die PPM und die Luftqualität angezeigt
+    # Display PPM and air quality on OLED
     display.fill(0)
-    display.text("-Luftqualitaet-", 7, 0)
-    display.text("Gut", 43, 15)
+    display.text("-Air Quality-", 7, 0)
+    display.text("Good", 43, 15)
     display.text(f"PPM: {ppm}", 0, 55)
     display.show()
 
-# Mittlere Luftqualität-Funktion
-def luftMittel():
-# Die gelbe LED ist an, alle anderen aus und der Buzzer macht kein Geräusch
-    ledGruen.off()
-    ledGelb.on()
-    ledRot.off()
+# Moderate Air Quality Function
+def airModerate():
+    # Yellow LED is on, all others off, and buzzer is silent
+    ledGreen.off()
+    ledYellow.on()
+    ledRed.off()
     buzzer.off()
+    # Display PPM and air quality on OLED
     display.fill(0)
-# Auf dem Display wird die PPM und die Luftqualität angezeigt
-    display.text("-Luftqualitaet-", 2, 0)
-    display.text("Mittel", 43, 15)
-    display.text("!Bitte Lueften!", 5, 35)
+    display.text("-Air Quality-", 2, 0)
+    display.text("Moderate", 43, 15)
+    display.text("!Please Ventilate!", 5, 35)
     display.text(f"PPM: {ppm}", 0, 55)
     display.show()
 
-# Schlechte Luftqualität-Funktion
-def luftSchlecht():
-# Die rote ist LED an, alle anderen aus und der Buzzer macht ein Geräusch
-    ledGruen.off()
-    ledGelb.off()
-    ledRot.on()
+# Poor Air Quality Function
+def airPoor():
+    # Red LED is on, all others off, and buzzer beeps
+    ledGreen.off()
+    ledYellow.off()
+    ledRed.on()
     buzzer.on()
-# Auf dem Display wird die PPM und die Luftqualität angezeigt
+    # Display PPM and air quality on OLED
     display.fill(0)
-    display.text("-Luftqualitaet-", 0, 0)
-    display.text("Schlecht", 36, 15)
-    display.text("!Sofort Lueften!", 0, 35)
+    display.text("-Air Quality-", 0, 0)
+    display.text("Poor", 36, 15)
+    display.text("!Ventilate Immediately!", 0, 35)
     display.text(f"PPM: {ppm}", 0, 55)
     display.show()
    
-# JSON-Funktion
+# JSON Function
 def ppmJSON():
-    # Sensordaten in Strings umwandeln und die Werte in einen Dump schreiben
-    sensorWert = {"Analogwert" : str(ppm)}
-    ausgabe = json.dumps(sensorWert)
-    # Werte zum Broker schicken - (TOPIC, PAYLOAD)
-    mqttClient.publish("MQ135_Analogwert", ausgabe)
+    # Convert sensor data to strings and write values to a dump
+    sensorValue = {"AnalogValue": str(ppm)}
+    output = json.dumps(sensorValue)
+    # Send values to the broker - (TOPIC, PAYLOAD)
+    mqttClient.publish("MQ135_AnalogValue", output)
 
-#---------------------------- Programm --------------------------------
+#---------------------------- Program --------------------------------
 while True:
-    # Den Analogwert vom Sensor lesen
-    ppm = analogWert.read()
-    # Analogwert wird zu Testzwecken durch 2 geteilt, da der Sensor mehrere Stunden aufgeheizt werden muss
-    #ppm = ppm // 2
-    # JSON-Funktion ausführen
+    # Read analog value from the sensor
+    ppm = analogValue.read()
+    # Uncomment the next line for testing purposes if the sensor needs time to warm up
+    # ppm = ppm // 2
+    # Execute JSON function
     ppmJSON()
-    # Wenn der PPM-Wert unter 1000 liegt, die gute Luftqualität Funktion verwenden
+    # If PPM value is below 1000, use the good air quality function
     if ppm <= 1000:
-        luftGut()
-    # Wenn der PPM-Wert zwischen 1000 und 1599 liegt, die mittlere Luftqualität Funktion verwenden
-    if ppm >= 1000 and ppm <=1599:
-        luftMittel()
-    # Wenn der PPM-Wert unter 1000 liegt, die schlechte Luftqualität Funktion verwenden
-    if ppm >= 1600:
-        luftSchlecht()
-    # Jede Sekunde den Wert aktualisieren
+        airGood()
+    # If PPM value is between 1000 and 1599, use the moderate air quality function
+    if 1000 <= ppm <= 1599:
+        airModerate()
+    # If PPM value is above 1600, use the poor air quality function
+    if ppm
+        airPoor()
+    # Update the value every second
     time.sleep(1)
