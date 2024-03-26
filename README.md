@@ -33,6 +33,8 @@ This program allows you to measure air quality using an MQ135 gas sensor and dis
     LED Red: Pin 17
     Buzzer: Pin 12
 
+<img src="/images/blockdiagram.png" alt="Image of the blockdiagram," width="400" height="300">
+
 ## Libraries
 
     machine
