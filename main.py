@@ -72,9 +72,9 @@ display.text("Wi-Fi...", 0, 15)
 display.show()
 
 # Wi-Fi Name
-WIFI_SSID = "BZTG-IoT"
+WIFI_SSID = "[YOUR WIFI NAME HERE]"
 # Wi-Fi Password
-WIFI_PASSWORD = "WerderBremen24"
+WIFI_PASSWORD = "[YOUR WIFI PASSWORD HERE]"
 # Create Wi-Fi client
 wlan = network.WLAN(network.STA_IF)
 # Turn off Wi-Fi
@@ -109,9 +109,9 @@ display.text("MQTT...", 0, 15)
 display.show()
 
 # MQTT Broker
-MQTT_SERVER = "192.168.1.151"
+MQTT_SERVER = "[YOUR DATABROKER IP ADRESS HERE]"
 # MQTT Client ID
-CLIENT_ID = "MQTT_MR"
+CLIENT_ID = "[YOUR CLIENT ID HERE]"
 # MQTT Parameters
 mqttClient = MQTTClient(CLIENT_ID, MQTT_SERVER, port=1883, user=None, password=None, keepalive=3600, ssl=False, ssl_params={})
 # Wait for 0.5 seconds
