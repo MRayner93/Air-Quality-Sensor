@@ -1,39 +1,6 @@
 """
-Merlin Rayner, ETS22, 22.11.2022
-
-Version 1.5b, 12.04.2023
-Neue Versionen und weitere Informationen gibt es hier: https://github.com/MRayner93/air_quality
-
-Dieses Programm ist für einen Sensor, der die Luftqualität messen kann. Auf dem OLED Display und über das Node-Red
-Dashboard wird der aktuelle Wert in ppm (Parts per Million) angezeigt. Der Sensor muss, um optimal zu funktionieren,
-für mehrere Stunden aufgeheizt werden. Außerdem kann ein Ampelsystem und ein Buzzer über den Microcontroller
-angesteuert werden. Bei guter Luftqualität leuchtet die grüne LED, bei mittlerer nur die gelbe LED und bei schlechter
-Luftqualität leuchtet die rote LED und der Buzzer schlägt Alarm.
-
-Hardware:
-- 1*ESP32_lora_Display
-- 3*Widerstand 220Ohm
-- 1*LEDs Gruen
-- 1*LEDs Gelb
-- 1*LEDs Rot
-- 1*Buzzer
-- 1*MQ135 Gassensor
-- 1*Breadboard
-- Verdrahtungsbruecken
-
-- Gassensor = Pin 36
-- Led Grün = Pin 22
-- Led Gelb = Pin 23
-- Led Rot = Pin 17
-- Buzzer = Pin 12
-
-Bibliotheken:
-- machine (integriert in Micropython)
-- time (integriert in Micropython)
-- json (integriert in Micropython)
-- network (integriert in Micropython)
-- MQTTClient (integriert in Micropython)
-- SSD1306 (https://github.com/stlehmann/micropython-ssd1306)
+Author: Merlin Rayner
+Version: 1.5b
 """
 #-------------------------- Bibliotheken ------------------------------
 # PINs, SoftI2C und analoge PINs
