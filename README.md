@@ -47,6 +47,8 @@ This program allows you to measure air quality using an MQ135 gas sensor and dis
     Install Micropython on your ESP32.
     Download and install the SSD1306 library from [GitHub](https://github.com/stlehmann/micropython-ssd1306) on your ESP32.  
     Upload the program to your ESP32 and wire the hardware according to the provided wiring.
+    Change the Wifi-Settings to your Network.
+    Install MQTT or another Databroker and change the IP.
 
 ## Usage
 
