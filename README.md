@@ -1,6 +1,6 @@
 # Air Quality Monitor with ESP32 and OLED Display
 
-This program allows you to measure air quality using an MQ135 gas sensor and display the results on an OLED display. Additionally, the current value in ppm (Parts per Million) is displayed on the Node-Red dashboard. The program also controls a traffic light system and a buzzer via the microcontroller. In case of good air quality, the green LED lights up; for moderate quality, only the yellow LED lights up, and for poor air quality, the red LED lights up and the buzzer sounds an alarm.
+This program allows you to measure air quality using an MQ135 gas sensor and displays the results on an OLED display. Additionally, the current value in ppm (Parts per Million) is displayed on the Node-Red dashboard. The program also controls a traffic light system and a buzzer via the microcontroller. In case of good air quality, the green LED lights up; for moderate quality, only the yellow LED lights up, and for poor air quality, the red LED lights up and the buzzer sounds an alarm.
 
 ## Table of Contents
 
